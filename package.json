@@ -2,6 +2,7 @@
   "name": "learn-semi",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://shankarpandala.github.io/learn-semi",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
