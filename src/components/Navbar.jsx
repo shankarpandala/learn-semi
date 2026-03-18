@@ -115,7 +115,7 @@ export default function Navbar({ onToggleSidebar, sidebarOpen }) {
           aria-label="Subject quick navigation"
         >
           {FIRST_SIX.map((subject) => {
-            const color = PHASE_COLORS[subject.phase] || "#3b82f6";
+            const color = subject.colorHex || PHASE_COLORS[subject.phase] || "#3b82f6";
             return (
               <Link
                 key={subject.id}
@@ -127,7 +127,7 @@ export default function Navbar({ onToggleSidebar, sidebarOpen }) {
                   style={{ backgroundColor: color }}
                   aria-hidden="true"
                 />
-                <span className="truncate max-w-[100px]">{subject.title.split(/[:\s–]/)[0]}</span>
+                <span className="truncate max-w-[100px]">{subject.title.replace(/^(What Is a |The )/, "")}</span>
               </Link>
             );
           })}

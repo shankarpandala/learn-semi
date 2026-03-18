@@ -83,7 +83,7 @@ function ChapterLink({ chapter, subject, isActive, isDone, onClose }) {
 function SubjectRow({ subject, activePathname, progress, onClose }) {
   const isSubjectActive = activePathname.includes(`/subjects/${subject.id}`);
   const [open, setOpen] = useState(isSubjectActive);
-  const color = PHASE_COLORS[subject.phase] || "#3b82f6";
+  const color = subject.colorHex || PHASE_COLORS[subject.phase] || "#3b82f6";
 
   const completedCount = progress.completedChapters[subject.id]?.length || 0;
   const total = subject.chapters.length;
