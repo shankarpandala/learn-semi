@@ -127,7 +127,7 @@ export default function Navbar({ onToggleSidebar, sidebarOpen }) {
                   style={{ backgroundColor: color }}
                   aria-hidden="true"
                 />
-                <span className="truncate max-w-[100px]">{subject.title.replace(/^(What Is a |The )/, "")}</span>
+                <span className="whitespace-nowrap">{subject.shortName || subject.title}</span>
               </Link>
             );
           })}
