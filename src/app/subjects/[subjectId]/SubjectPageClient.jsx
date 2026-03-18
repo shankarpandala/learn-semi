@@ -38,7 +38,7 @@ export default function SubjectPageClient({ subjectId }) {
   }
 
   const phase = getPhaseForSubject(subject);
-  const color = PHASE_COLORS[phase.number] || "#3b82f6";
+  const color = subject.colorHex || PHASE_COLORS[phase.number] || "#3b82f6";
   const completedCount = Object.values(completionMap).filter(Boolean).length;
 
   return (
