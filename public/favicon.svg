@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="10" fill="url(#bg)"/>
+  <g transform="translate(32, 32)" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="-14.08" y="-14.08" width="28.16" height="28.16" rx="2.56"/>
+    <rect x="-7.68" y="-7.68" width="15.36" height="15.36" rx="1.28"/>
+    <line x1="-6.4" y1="-14.08" x2="-6.4" y2="-20.48"/>
+    <line x1="0" y1="-14.08" x2="0" y2="-20.48"/>
+    <line x1="6.4" y1="-14.08" x2="6.4" y2="-20.48"/>
+    <line x1="-6.4" y1="14.08" x2="-6.4" y2="20.48"/>
+    <line x1="0" y1="14.08" x2="0" y2="20.48"/>
+    <line x1="6.4" y1="14.08" x2="6.4" y2="20.48"/>
+    <line x1="-14.08" y1="-6.4" x2="-20.48" y2="-6.4"/>
+    <line x1="-14.08" y1="0" x2="-20.48" y2="0"/>
+    <line x1="-14.08" y1="6.4" x2="-20.48" y2="6.4"/>
+    <line x1="14.08" y1="-6.4" x2="20.48" y2="-6.4"/>
+    <line x1="14.08" y1="0" x2="20.48" y2="0"/>
+    <line x1="14.08" y1="6.4" x2="20.48" y2="6.4"/>
+  </g>
+</svg>
