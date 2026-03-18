@@ -1,0 +1,117 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --sidebar-bg: #f8fafc;
+  --sidebar-border: #e2e8f0;
+  --accent: #3b82f6;
+  --accent-light: #eff6ff;
+  --accent-dark: #1d4ed8;
+  --success: #22c55e;
+  --success-light: #f0fdf4;
+  --muted: #64748b;
+  --card-bg: #ffffff;
+  --card-border: #e2e8f0;
+  --phase-1: #3b82f6;
+  --phase-2: #8b5cf6;
+  --phase-3: #f59e0b;
+  --phase-4: #ef4444;
+  --phase-5: #10b981;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+    --sidebar-bg: #111827;
+    --sidebar-border: #1f2937;
+    --accent: #60a5fa;
+    --accent-light: #1e3a5f;
+    --accent-dark: #93bbfc;
+    --success: #4ade80;
+    --success-light: #052e16;
+    --muted: #94a3b8;
+    --card-bg: #1f2937;
+    --card-border: #374151;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.phase-1 { --phase-color: var(--phase-1); }
+.phase-2 { --phase-color: var(--phase-2); }
+.phase-3 { --phase-color: var(--phase-3); }
+.phase-4 { --phase-color: var(--phase-4); }
+.phase-5 { --phase-color: var(--phase-5); }
+
+.content-prose h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: var(--foreground);
+}
+
+.content-prose h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: var(--foreground);
+}
+
+.content-prose p {
+  margin-bottom: 1rem;
+  line-height: 1.75;
+  color: var(--foreground);
+}
+
+.content-prose ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.content-prose li {
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+}
+
+.content-prose .analogy {
+  background: var(--accent-light);
+  border-left: 4px solid var(--accent);
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+
+.content-prose .key-concept {
+  background: var(--success-light);
+  border-left: 4px solid var(--success);
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+
+.content-prose .did-you-know {
+  background: #fef3c7;
+  border-left: 4px solid #f59e0b;
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  .content-prose .did-you-know {
+    background: #422006;
+  }
+}
