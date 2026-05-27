@@ -103,6 +103,33 @@ export const subject7 = {
   <p>CVD is like spray painting, but at the molecular level. Instead of paint droplets, gas molecules arrive at the surface and chemically bond to it, building up a uniform coating layer by layer.</p>
 </div>`,
         },
+        {
+          id: "cvd-chemistry",
+          title: "CVD Precursors and Film Chemistry",
+          content: `
+<h2>CVD Precursors and Film Chemistry</h2>
+<p>The choice of precursor gases determines the film composition, deposition rate, and required temperature. A few canonical recipes:</p>
+<table>
+  <thead>
+    <tr><th>Film</th><th>Precursors</th><th>Reaction</th><th>Variant</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Polysilicon</td><td>SiH₄</td><td>SiH₄ → Si + 2H₂</td><td>LPCVD ~620 °C</td></tr>
+    <tr><td>Si₃N₄</td><td>SiH₂Cl₂ + NH₃</td><td>3 SiH₂Cl₂ + 4 NH₃ → Si₃N₄ + 6 HCl + 6 H₂</td><td>LPCVD ~780 °C</td></tr>
+    <tr><td>SiO₂ (TEOS)</td><td>Si(OC₂H₅)₄ + O₂</td><td>TEOS → SiO₂ + organic byproducts</td><td>PECVD ~400 °C</td></tr>
+    <tr><td>Tungsten plug</td><td>WF₆ + H₂</td><td>WF₆ + 3 H₂ → W + 6 HF</td><td>CVD ~400 °C</td></tr>
+  </tbody>
+</table>
+<p>Two regimes determine the deposition rate:</p>
+<ul>
+  <li><strong>Surface-reaction limited (low T):</strong> Reaction kinetics on the wafer set the rate. Very temperature-sensitive (rate doubles every ~10 °C) but insensitive to gas flow — gives excellent uniformity.</li>
+  <li><strong>Mass-transport limited (high T):</strong> Precursor diffusion through the boundary layer sets the rate. Less temperature-sensitive but very flow-sensitive — used in high-throughput epi reactors.</li>
+</ul>
+<div class="key-concept">
+  <h3>Key Concept: Step Coverage</h3>
+  <p><strong>Step coverage</strong> is the ratio of film thickness on the bottom of a trench to that on the field. Good LPCVD reaches >90% step coverage because the surface-reaction-limited regime gives precursors time to reach every surface. PECVD is more directional and often gives 40–70%.</p>
+</div>`,
+        },
       ],
       quiz: [
         {
@@ -116,6 +143,18 @@ export const subject7 = {
           correctIndex: 0,
           explanation:
             "PECVD uses plasma energy to drive reactions at 200–400°C, much lower than LPCVD's 600–900°C. This is essential for BEOL processing where copper interconnects (melting point 1085°C) are already present.",
+        },
+        {
+          question: "Which CVD regime gives the best across-wafer thickness uniformity?",
+          options: [
+            "Surface-reaction limited (low temperature)",
+            "Mass-transport limited (high temperature)",
+            "Plasma-enhanced only",
+            "Atmospheric pressure CVD",
+          ],
+          correctIndex: 0,
+          explanation:
+            "In the surface-reaction-limited regime, deposition rate depends on local surface kinetics rather than gas flow. Once the wafer is at uniform temperature, the film grows uniformly everywhere — that's why LPCVD is run there.",
         },
       ],
     },
@@ -148,6 +187,27 @@ export const subject7 = {
   <p>Modern PVD tools use <strong>magnetron sputtering</strong> — magnets behind the target confine the plasma close to the target surface, dramatically increasing deposition rate and efficiency. Ionized PVD (iPVD) goes further, ionizing the sputtered atoms for better directionality.</p>
 </div>`,
         },
+        {
+          id: "evaporation",
+          title: "Evaporation",
+          content: `
+<h2>Evaporation</h2>
+<p><strong>Evaporation</strong> is the other PVD family. Instead of bombarding a target with ions, the source material is simply heated until atoms boil off and travel ballistically to the wafer in a high vacuum (10⁻⁶–10⁻⁸ Torr):</p>
+<ul>
+  <li><strong>Thermal evaporation:</strong> A resistively heated boat (W, Mo) melts and vaporizes the source. Simple and cheap, but limited to low-melting metals (Al, Au, Ag, Cu).</li>
+  <li><strong>E-beam evaporation:</strong> A focused electron beam (5–10 keV) heats a small spot in a water-cooled crucible. Can evaporate refractory metals (Ti, Pt, W) and oxides.</li>
+</ul>
+<p>Compared with sputtering, evaporation gives:</p>
+<ul>
+  <li><strong>Higher purity</strong> — no working gas, so films contain very little background contamination</li>
+  <li><strong>Lower step coverage</strong> — the source is point-like and atoms travel in straight lines, so vertical sidewalls are barely coated</li>
+  <li><strong>Easy lift-off compatibility</strong> — the directional flux leaves a clean break between resist and film, making evaporation popular in MEMS, photonics, and III-V research labs</li>
+</ul>
+<div class="key-concept">
+  <h3>Key Concept: Where Evaporation Survives</h3>
+  <p>Mainstream silicon CMOS fabs use sputtering almost exclusively because they need conformality and uniformity over 300 mm. Evaporation remains the workhorse for <strong>compound-semiconductor research, MEMS contacts, optical coatings, and lift-off patterning</strong> where directionality is actually a feature.</p>
+</div>`,
+        },
       ],
       quiz: [
         {
@@ -156,6 +216,18 @@ export const subject7 = {
           correctIndex: 0,
           explanation:
             "Argon is the standard sputtering gas because it's inert (won't react with the target or film), heavy enough to efficiently eject target atoms, and relatively inexpensive.",
+        },
+        {
+          question: "Why is evaporation rarely used for mainstream 300 mm CMOS interconnects?",
+          options: [
+            "Its point-source geometry gives poor step coverage on high-aspect-ratio features",
+            "It cannot reach a high vacuum",
+            "It contaminates films with argon",
+            "It is incompatible with copper",
+          ],
+          correctIndex: 0,
+          explanation:
+            "Evaporation flux travels in straight lines from a small source, so vertical sidewalls in deep trenches are barely coated. Mainstream interconnects need >70% step coverage, so sputtering (and ALD/CVD for liners) dominates instead.",
         },
       ],
     },

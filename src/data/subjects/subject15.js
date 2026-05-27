@@ -281,7 +281,8 @@ def extract_trace_features(trace: np.ndarray, sensor_name: str,
     features[f"{prefix}_r_squared"] = r_value ** 2
 
     # Integral (area under curve — proxy for total energy/dose)
-    features[f"{prefix}_integral"] = np.trapz(trace)
+    # Use np.trapezoid (NumPy 2.0+); np.trapz is deprecated.
+    features[f"{prefix}_integral"] = np.trapezoid(trace)
 
     # Settling features (important for pressure, temperature)
     features[f"{prefix}_first_10pct_mean"] = np.mean(trace[:len(trace)//10])
@@ -433,8 +434,13 @@ def temporal_cv_for_vm(X, y, timestamps, n_splits=5):
 <pre><code class="language-python">import numpy as np
 from scipy import stats
 
-def vm_performance_report(y_true, y_pred, spec_limit=2.0):
-    """Generate a fab-standard VM performance report."""
+def vm_performance_report(y_true, y_pred, lsl=-2.0, usl=2.0):
+    """Generate a fab-standard VM performance report.
+
+    Cpk is computed with the standard two-sided definition:
+        Cpk = min((USL - mu) / (3 sigma), (mu - LSL) / (3 sigma))
+    Pass lsl/usl as the spec limits on residuals (in nm or whatever units).
+    """
     residuals = y_true - y_pred
     n = len(residuals)
 
@@ -443,10 +449,12 @@ def vm_performance_report(y_true, y_pred, spec_limit=2.0):
     mape = np.mean(np.abs(residuals / y_true)) * 100
     r_squared = 1 - np.sum(residuals**2) / np.sum((y_true - y_true.mean())**2)
 
-    # Cpk of residuals (how well-centered within spec)
+    # Cpk of residuals (standard formula: penalises both centering and spread)
     mu = np.mean(residuals)
-    sigma = np.std(residuals)
-    cpk = min(spec_limit - mu, spec_limit + mu) / (3 * sigma)
+    sigma = np.std(residuals, ddof=1)
+    cpu = (usl - mu) / (3 * sigma)
+    cpl = (mu - lsl) / (3 * sigma)
+    cpk = min(cpu, cpl)
 
     # Coverage check for 95% prediction interval
     z_95 = 1.96

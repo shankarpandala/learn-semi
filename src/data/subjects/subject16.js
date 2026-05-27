@@ -195,6 +195,61 @@ export const subject16 = {
 </ul>
 <p>In practice, <strong>gradient-boosted trees (XGBoost, LightGBM)</strong> on engineered features often outperform deep learning in this domain due to limited training data and the effectiveness of domain-informed features.</p>`,
         },
+        {
+          id: "survival-analysis-and-rul",
+          title: "Survival Analysis and RUL Estimation",
+          content: `
+<h2>Survival Analysis and RUL Estimation</h2>
+<p>Survival analysis is the statistical backbone of PdM. The central object is the <strong>survival function</strong>:</p>
+<p style="text-align:center;font-family:serif"><em>S(t) = P(T &gt; t)</em></p>
+<p>i.e. the probability that a component is still alive at time <em>t</em>. The complement is the cumulative failure probability F(t) = 1 − S(t), and the instantaneous failure rate (hazard) is <em>h(t) = f(t) / S(t)</em>.</p>
+<h3>1. The Weibull model — the workhorse</h3>
+<p>Fab equipment lifetimes are routinely fit with the two-parameter Weibull distribution:</p>
+<p style="text-align:center;font-family:serif"><em>S(t) = exp(−(t/η)<sup>β</sup>)&nbsp;&nbsp;&nbsp;&nbsp;h(t) = (β/η)(t/η)<sup>β−1</sup></em></p>
+<table>
+  <thead>
+    <tr><th>Shape parameter β</th><th>Meaning</th><th>Typical fab example</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>&lt; 1</td><td>Decreasing hazard ("infant mortality")</td><td>New chamber after install — early-life bugs</td></tr>
+    <tr><td>= 1</td><td>Constant hazard (memoryless / exponential)</td><td>Random faults — power supply, sensor failures</td></tr>
+    <tr><td>&gt; 1</td><td>Increasing hazard ("wear-out")</td><td>Heater coil, RF generator, focus ring</td></tr>
+  </tbody>
+</table>
+<h3>2. Cox proportional hazards — using covariates</h3>
+<p>Adds an exponential effect of covariates <em>x</em> on the baseline hazard:</p>
+<p style="text-align:center;font-family:serif"><em>h(t | x) = h<sub>0</sub>(t) · exp(β·x)</em></p>
+<p>This lets you say, e.g., "a 10% higher RF reflected power doubles the instantaneous failure rate," without committing to a specific h₀ shape.</p>
+<h3>3. RUL from a Weibull HI model</h3>
+<p>Once you have an estimated S(t) and the component has already survived to time <em>t<sub>now</sub></em>, the <strong>Remaining Useful Life</strong> is the expectation:</p>
+<p style="text-align:center;font-family:serif"><em>RUL(t<sub>now</sub>) = E[T − t<sub>now</sub> | T &gt; t<sub>now</sub>] = ∫<sub>t<sub>now</sub></sub><sup>∞</sup> [S(u)/S(t<sub>now</sub>)] du</em></p>
+<pre><code class="language-python">import numpy as np
+from scipy.special import gamma
+
+def weibull_rul(t_now: float, eta: float, beta: float) -&gt; float:
+    """Remaining useful life under a Weibull lifetime distribution.
+
+    Mean lifetime is eta * Gamma(1 + 1/beta); conditional mean
+    given survival to t_now uses numeric integration of S(u)/S(t_now).
+    """
+    if t_now &lt; 0:
+        raise ValueError("t_now must be non-negative")
+    # Integrate from t_now to a horizon ~5x mean
+    horizon = 5 * eta * gamma(1 + 1 / beta)
+    u = np.linspace(t_now, horizon, 4000)
+    S = np.exp(-(u / eta) ** beta)
+    S_now = np.exp(-(t_now / eta) ** beta)
+    return np.trapezoid(S / S_now, u)
+
+# Example: focus ring with eta=1500 RF-hours, beta=2.5 (wear-out)
+print(f"RUL at 800 RF-hr: {weibull_rul(800, 1500, 2.5):.0f} hours")
+print(f"RUL at 1400 RF-hr: {weibull_rul(1400, 1500, 2.5):.0f} hours")
+</code></pre>
+<div class="key-concept">
+  <h3>Key Concept: Censored Data</h3>
+  <p>Most components on the floor right now haven't failed yet — their lifetimes are <strong>right-censored</strong>. Fitting Weibull/Cox models with maximum likelihood properly accounts for censoring (via the survival contribution S(t) for censored points). Use <code>lifelines</code> or <code>scikit-survival</code> in Python rather than ad-hoc dropping of unfinished runs.</p>
+</div>`,
+        },
       ],
       quiz: [
         {
@@ -208,6 +263,30 @@ export const subject16 = {
           correctIndex: 0,
           explanation:
             "In well-maintained fabs, failures are extremely rare (<0.1% of runs), creating severe class imbalance. Anomaly detection learns 'normal' behavior and flags deviations, avoiding the need for labeled failure data.",
+        },
+        {
+          question: "What does a Weibull shape parameter β > 1 indicate about a fab component?",
+          options: [
+            "Increasing hazard rate over time — classic wear-out behaviour",
+            "Constant random failures (memoryless)",
+            "Decreasing hazard rate — infant mortality",
+            "The component never fails",
+          ],
+          correctIndex: 0,
+          explanation:
+            "β > 1 means the instantaneous failure rate grows with time. That's the signature of wear-out — heaters, RF generators, focus rings. β = 1 is exponential (constant rate), β < 1 is infant mortality.",
+        },
+        {
+          question: "Why must Weibull/Cox lifetime models be fit with proper censoring handling?",
+          options: [
+            "Most parts on the floor haven't failed yet; dropping them biases the parameter estimates",
+            "Censoring slows training",
+            "Censored data contains illegal characters",
+            "It's required by SEMI standards",
+          ],
+          correctIndex: 0,
+          explanation:
+            "Right-censored lifetimes (still alive at observation time) carry real information through their survival contribution S(t). Tools like lifelines or scikit-survival incorporate that via maximum likelihood; throwing those rows away systematically underestimates lifetimes.",
         },
       ],
     },
@@ -234,6 +313,54 @@ export const subject16 = {
   <p>A successful PdM system typically delivers 5–15% reduction in unplanned downtime and 10–20% reduction in maintenance costs. For a large fab, this translates to <strong>$10–50M annual savings</strong>. The ROI is compelling, but achieving it requires strong data infrastructure and close collaboration between data scientists and equipment engineers.</p>
 </div>`,
         },
+        {
+          id: "alert-thresholds-and-drift",
+          title: "Alert Thresholds, Drift, and the MES Feedback Loop",
+          content: `
+<h2>Alert Thresholds, Drift, and the MES Feedback Loop</h2>
+<p>A PdM model is only as good as the decisions it triggers. Three operational pieces dictate whether the savings actually land.</p>
+<h3>1. Setting alert thresholds</h3>
+<p>Most fabs adopt a tiered alert scheme — typically a Yellow / Orange / Red triage:</p>
+<table>
+  <thead>
+    <tr><th>Tier</th><th>Trigger</th><th>Action</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Yellow</td><td>Anomaly score &gt; μ + 3σ on recent window</td><td>Engineer notified, no production stop</td></tr>
+    <tr><td>Orange</td><td>Predicted RUL &lt; 24 h with &gt;80% confidence</td><td>Schedule PM in next available slot</td></tr>
+    <tr><td>Red</td><td>Predicted RUL &lt; 4 h or hard sensor limit breached</td><td>Tool placed in "PM hold" by MES</td></tr>
+  </tbody>
+</table>
+<h3>2. Model drift</h3>
+<p>Equipment evolves: new PMs, new chambers, recipe edits, target swaps. A model trained six months ago can quietly become useless. Monitor drift continuously:</p>
+<pre><code class="language-python">from scipy import stats
+
+def feature_drift(train_dist, recent_dist, alpha=0.01):
+    """Return True if the recent feature distribution has drifted (KS test)."""
+    ks_stat, p_value = stats.ks_2samp(train_dist, recent_dist)
+    return p_value &lt; alpha, ks_stat
+
+# Concept-drift retraining trigger
+drifted, score = feature_drift(
+    train_dist=feature_history["chamber_pressure_mean"][:30_000],
+    recent_dist=feature_history["chamber_pressure_mean"][-2_000:],
+)
+if drifted:
+    schedule_retrain(model_id="etch_chamber_rul", reason=f"KS={score:.3f}")
+</code></pre>
+<h3>3. The MES loop</h3>
+<p>The output of the PdM system is not a CSV — it is a structured event posted to the <strong>Manufacturing Execution System (MES)</strong>:</p>
+<ul>
+  <li>A predicted failure event creates a maintenance ticket in the CMMS</li>
+  <li>The scheduler reserves the tool for PM at a low-WIP window</li>
+  <li>Wafer routing is rebalanced to peer chambers</li>
+  <li>Once PM is closed, the model receives a labelled failure or no-failure event for future retraining</li>
+</ul>
+<div class="key-concept">
+  <h3>Key Concept: Closed-Loop Feedback</h3>
+  <p>The single biggest lever for PdM accuracy isn't a fancier model — it's a clean closed-loop label pipeline. Every PM ticket should carry the actual failure mode (or "no-fault-found") back to the training set within hours, not weeks. Without that loop, model accuracy decays steadily.</p>
+</div>`,
+        },
       ],
       quiz: [
         {
@@ -247,6 +374,18 @@ export const subject16 = {
           correctIndex: 0,
           explanation:
             "The key operational challenge is tuning alert thresholds: too sensitive means engineers are overwhelmed with false alarms (and start ignoring them), too conservative means real failures are missed.",
+        },
+        {
+          question: "Why is a closed-loop label pipeline (PM tickets feeding back to training) the most important lever for long-term PdM accuracy?",
+          options: [
+            "Without fresh failure / no-failure labels, the model can't adapt to drift and accuracy decays steadily",
+            "It makes the alerts louder",
+            "It removes the need for any sensors",
+            "It avoids using ML at all",
+          ],
+          correctIndex: 0,
+          explanation:
+            "Equipment evolves and so does the failure-mode mix. A clean PM-to-training feedback loop keeps the labelled dataset current, lets retraining catch drift, and is what separates a one-off pilot from a system that quietly works for years.",
         },
       ],
     },

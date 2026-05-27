@@ -220,7 +220,8 @@ export const subject1 = {
     <tr><td>Intel 4004</td><td>1971</td><td>2,300</td><td>10 µm</td></tr>
     <tr><td>Intel Pentium</td><td>1993</td><td>3.1 million</td><td>800 nm</td></tr>
     <tr><td>Apple M1</td><td>2020</td><td>16 billion</td><td>5 nm</td></tr>
-    <tr><td>Apple M4 Ultra</td><td>2025</td><td>~100 billion</td><td>3 nm</td></tr>
+    <tr><td>Apple M2 Ultra</td><td>2023</td><td>134 billion</td><td>5 nm (N5P)</td></tr>
+    <tr><td>Apple M4 Max</td><td>2024</td><td>28 billion</td><td>3 nm (N3E)</td></tr>
   </tbody>
 </table>
 <p>Each transistor is incredibly small. At the 3nm node, transistor features are just a few nanometers wide — about <strong>20 silicon atoms across</strong>. A human hair is roughly 80,000 nm wide.</p>

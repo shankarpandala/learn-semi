@@ -89,21 +89,23 @@ export const subject2 = {
           content: `
 <h2>The Cleanroom Environment</h2>
 <p>Semiconductor fabrication takes place in <strong>cleanrooms</strong> — environments where airborne particles are strictly controlled. A single dust particle can ruin a chip with features just a few nanometers wide.</p>
-<p>Cleanroom classifications:</p>
+<p>Cleanroom classifications (ISO 14644-1, max particles per m³ at the specified size):</p>
 <table>
   <thead>
-    <tr><th>Class</th><th>Particles per m³ (≥0.5µm)</th><th>Usage</th></tr>
+    <tr><th>ISO Class</th><th>FED-STD-209E equivalent</th><th>Max particles/m³ (≥0.5 µm)</th><th>Usage</th></tr>
   </thead>
   <tbody>
-    <tr><td>ISO 1 (Class 1)</td><td>10</td><td>Advanced lithography areas</td></tr>
-    <tr><td>ISO 3 (Class 1)</td><td>1,000</td><td>General wafer processing</td></tr>
-    <tr><td>ISO 5 (Class 100)</td><td>100,000</td><td>Assembly areas</td></tr>
+    <tr><td>ISO 3</td><td>Class 1</td><td>~35</td><td>Advanced lithography areas (EUV)</td></tr>
+    <tr><td>ISO 4</td><td>Class 10</td><td>~352</td><td>General sub-7nm wafer processing</td></tr>
+    <tr><td>ISO 5</td><td>Class 100</td><td>~3,520</td><td>Mainstream wafer processing</td></tr>
+    <tr><td>ISO 7</td><td>Class 10,000</td><td>~352,000</td><td>Assembly / test areas</td></tr>
+    <tr><td>ISO 8</td><td>Class 100,000</td><td>~3,520,000</td><td>Support / packaging areas</td></tr>
   </tbody>
 </table>
-<p>For comparison, typical outdoor air contains about <strong>35 million particles per m³</strong>. Cleanroom workers wear full "bunny suits" to prevent shedding skin cells and hair.</p>
+<p>For comparison, typical outdoor urban air contains <strong>tens of millions of particles per m³</strong> ≥0.5 µm. Cleanroom workers wear full "bunny suits" to prevent shedding skin cells and hair.</p>
 <div class="analogy">
-  <h3>Analogy: Operating Room × 1000</h3>
-  <p>A hospital operating room is ISO Class 7 (~350,000 particles/m³). A semiconductor cleanroom is 10,000–100,000× cleaner than an operating room.</p>
+  <h3>Analogy: Operating Room × 1000+</h3>
+  <p>A hospital operating room is roughly ISO Class 7 (≤352,000 particles/m³ ≥0.5 µm). A fab's ISO 3 lithography bay is about <strong>10,000× cleaner</strong> than that operating room.</p>
 </div>`,
         },
         {
