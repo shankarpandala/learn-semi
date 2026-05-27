@@ -34,6 +34,36 @@ export const subject9 = {
   <p>Wet etching is like dissolving material with acid — it removes material in all directions equally (isotropic). Dry etching is like using a chisel pointing straight down — you can carve vertical walls without undercutting (anisotropic).</p>
 </div>`,
         },
+        {
+          id: "wet-etch-chemistries",
+          title: "Wet Etch Chemistries and Where They Still Win",
+          content: `
+<h2>Wet Etch Chemistries and Where They Still Win</h2>
+<p>Even in the dry-etch era, wet processes survive wherever isotropy, selectivity, or simplicity are decisive. Classic recipes:</p>
+<table>
+  <thead>
+    <tr><th>Material</th><th>Etchant</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>SiO₂</td><td>Buffered HF (BHF / BOE)</td><td>NH₄F buffer keeps etch rate stable; ~1000 Å/min</td></tr>
+    <tr><td>Si₃N₄</td><td>Hot H₃PO₄ (~160 °C)</td><td>Very selective to SiO₂; used to strip nitride spacers</td></tr>
+    <tr><td>Si (anisotropic)</td><td>KOH or TMAH</td><td>Etches {100} much faster than {111} → V-grooves; used in MEMS</td></tr>
+    <tr><td>Al</td><td>PAN (H₃PO₄ + HNO₃ + acetic + H₂O)</td><td>Smooth profiles for bond pads</td></tr>
+    <tr><td>Cu</td><td>FeCl₃ or H₂SO₄/H₂O₂</td><td>Mostly limited to PCB / packaging; in-fab Cu uses CMP not wet etch</td></tr>
+  </tbody>
+</table>
+<p>Wet etching still dominates for:</p>
+<ul>
+  <li><strong>Stripping sacrificial layers</strong> (pad oxide removal, nitride spacer pull) — selectivities of 100:1+ are easy</li>
+  <li><strong>Surface preparation</strong> — HF dip removes native oxide and leaves an H-terminated Si surface ready for epi</li>
+  <li><strong>MEMS bulk micromachining</strong> — KOH/TMAH carve cavities through the wafer along crystal planes</li>
+  <li><strong>Cost-sensitive back-end</strong> — wet stations are an order of magnitude cheaper per wafer than plasma tools</li>
+</ul>
+<div class="key-concept">
+  <h3>Key Concept: Why Wet Etch Lost Patterning</h3>
+  <p>At sub-micron CDs, isotropic etch undercuts the mask by roughly the film thickness — a 500 nm film undercuts ~500 nm, larger than the line itself. Dry etching's anisotropy is the only way to print vertical sidewalls below ~1 µm.</p>
+</div>`,
+        },
       ],
       quiz: [
         {
@@ -47,6 +77,18 @@ export const subject9 = {
           correctIndex: 0,
           explanation:
             "Etch selectivity is the ratio of etch rates between the target material and the mask/stop layer. High selectivity (e.g., 50:1) means you can completely remove the target while barely touching the mask.",
+        },
+        {
+          question: "Why is wet etching with KOH popular in MEMS?",
+          options: [
+            "KOH etches the Si {100} plane far faster than {111}, producing well-defined V-grooves and cavities",
+            "It etches all silicon planes equally",
+            "It is the only chemistry that etches SiO₂",
+            "It produces perfectly vertical sidewalls",
+          ],
+          correctIndex: 0,
+          explanation:
+            "KOH (and TMAH) are anisotropic crystallographic etchants for silicon — etch rate on {100} is ~100× faster than {111}. That selectivity carves the angled sidewalls and cavities that MEMS structures rely on.",
         },
       ],
     },
@@ -209,6 +251,35 @@ export const subject9 = {
 <div class="key-concept">
   <h3>Key Concept: The Anneal Trade-off</h3>
   <p>Higher temperature and longer time = better activation but more diffusion. The industry has progressively moved to shorter, hotter anneals to maximize the activation/diffusion ratio. Laser annealing represents the extreme — near-melting temperatures for mere nanoseconds.</p>
+</div>`,
+        },
+        {
+          id: "thermal-budget",
+          title: "Thermal Budget and Diffusion",
+          content: `
+<h2>Thermal Budget and Diffusion</h2>
+<p>Every time the wafer sees high temperature, dopants diffuse. The cumulative impact is the <strong>thermal budget</strong>, often summarised by an effective Dt product:</p>
+<p style="text-align:center;font-family:serif"><em>(Dt)<sub>eff</sub> = Σ<sub>i</sub> D(T<sub>i</sub>) · t<sub>i</sub></em></p>
+<p>where <em>D(T) = D₀ · exp(−E<sub>A</sub> / kT)</em> is Fick's diffusion coefficient and the sum runs over every anneal, deposition, or oxidation step. The resulting dopant spread after a series of steps is roughly <em>√(Dt)<sub>eff</sub></em>.</p>
+<table>
+  <thead>
+    <tr><th>Dopant in Si</th><th>D₀ (cm²/s)</th><th>E<sub>A</sub> (eV)</th><th>Practical implication</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Boron (B)</td><td>~10.5</td><td>~3.69</td><td>Fastest diffuser of common dopants — hardest to keep junctions sharp</td></tr>
+    <tr><td>Phosphorus (P)</td><td>~10.5</td><td>~3.69</td><td>Similar to B; channel-stop and well dopant</td></tr>
+    <tr><td>Arsenic (As)</td><td>~0.32</td><td>~3.56</td><td>Slow — preferred for shallow N+ source/drain</td></tr>
+    <tr><td>Antimony (Sb)</td><td>~0.21</td><td>~3.65</td><td>Even slower — buried-layer dopant in BJTs</td></tr>
+  </tbody>
+</table>
+<p>Two strategies dominate modern junction engineering:</p>
+<ul>
+  <li><strong>Co-implants</strong> (C, F, N) trap interstitials and suppress transient-enhanced diffusion (TED) of boron after RTA.</li>
+  <li><strong>Millisecond / nanosecond laser anneals</strong> push the (Dt) product so low that even boron barely moves, letting the source-drain extension stay <strong>under 10 nm deep</strong>.</li>
+</ul>
+<div class="key-concept">
+  <h3>Key Concept: Why As Is the Default for NMOS S/D</h3>
+  <p>Arsenic's diffusion coefficient is ~30× lower than phosphorus at 1000 °C. That's why advanced NMOS source/drain extensions use As (and SiGe:B for PMOS) — they stay where you put them through the rest of the thermal flow.</p>
 </div>`,
         },
       ],

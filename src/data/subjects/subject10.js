@@ -91,6 +91,32 @@ export const subject10 = {
   <p>Copper has 40% lower resistivity than aluminum (1.7 vs 2.8 µΩ·cm), enabling faster signal propagation and lower power consumption. The switch from Al to Cu at the 130nm node was a major industry milestone.</p>
 </div>`,
         },
+        {
+          id: "cmp-and-electroplating",
+          title: "Electroplating and CMP",
+          content: `
+<h2>Electroplating and CMP — The Two Steps That Made Damascene Possible</h2>
+<p>Two enabling unit processes turned the damascene idea into a manufacturable flow:</p>
+<h3>1. Electrochemical Deposition (ECD) — the bottom-up fill</h3>
+<p>Pure copper PVD would close the top of a high-aspect-ratio trench before filling the bottom, leaving a void. Modern Cu ECD baths add three families of organic additives that bias growth bottom-up:</p>
+<ul>
+  <li><strong>Suppressor</strong> (e.g., PEG with Cl⁻): adsorbs everywhere, slows plating on the field</li>
+  <li><strong>Accelerator</strong> (SPS / MPS): preferentially accumulates at trench bottoms, speeds plating locally</li>
+  <li><strong>Leveler</strong> (Janus Green B): diffusion-limited; adsorbs on protrusions to smooth the surface</li>
+</ul>
+<p>The combined effect — <strong>"superfilling"</strong> — gives void-free fill in trenches with aspect ratio &gt; 5:1.</p>
+<h3>2. Chemical-Mechanical Polishing (CMP)</h3>
+<p>ECD overplates copper across the entire wafer. CMP removes the overburden plus the barrier on the field, stopping flush with the dielectric and leaving copper only in the trenches.</p>
+<ul>
+  <li>Slurry: nano-alumina or silica abrasives suspended in oxidiser (H₂O₂) + complexing agents</li>
+  <li>Pad: porous polyurethane, rotating at 30–100 rpm under 2–7 psi down-force</li>
+  <li>Endpoint: motor-torque or eddy-current sensor detects the transition from Cu to barrier to dielectric</li>
+</ul>
+<div class="key-concept">
+  <h3>Key Concept: Dishing and Erosion</h3>
+  <p>Two CMP defects haunt damascene: <strong>dishing</strong> (the centre of wide Cu lines polishes faster than the edges, giving a concave wire) and <strong>erosion</strong> (dense arrays of small lines polish faster than the surrounding dielectric). Both eat resistance budget and force layout-level dummy-fill rules to keep pattern density uniform.</p>
+</div>`,
+        },
       ],
       quiz: [
         {
@@ -104,6 +130,18 @@ export const subject10 = {
           correctIndex: 0,
           explanation:
             "Unlike aluminum, copper doesn't form volatile compounds during plasma etching — the etch products would redeposit on the surface. The damascene process avoids this by filling pre-etched trenches instead.",
+        },
+        {
+          question: "What is the function of the 'accelerator' additive in Cu electroplating baths?",
+          options: [
+            "It preferentially accumulates at trench bottoms, biasing plating bottom-up to avoid voids",
+            "It increases bath temperature",
+            "It dissolves the seed layer",
+            "It removes copper overburden",
+          ],
+          correctIndex: 0,
+          explanation:
+            "Accelerators (SPS/MPS) adsorb most strongly at the bottoms of high-aspect-ratio trenches, where their surface concentration grows during fill. That locally boosts plating rate and produces 'superfill' — void-free copper in aggressive geometries.",
         },
       ],
     },
@@ -130,6 +168,28 @@ export const subject10 = {
 </ul>
 <p>As wires shrink, the barrier takes up a larger fraction of the trench width, reducing the effective copper area and increasing resistance. This is the <strong>"barrier scaling challenge"</strong> — a major driver of research into alternative materials.</p>`,
         },
+        {
+          id: "barrier-alternatives",
+          title: "Beyond TaN/Ta: Cobalt, Ruthenium, and Self-Forming Barriers",
+          content: `
+<h2>Beyond TaN/Ta: Cobalt, Ruthenium, and Self-Forming Barriers</h2>
+<p>At sub-10 nm linewidths, a 2 nm PVD TaN/Ta stack consumes a third or more of the trench cross-section. Industry has responded with three families of alternatives:</p>
+<table>
+  <thead>
+    <tr><th>Approach</th><th>Materials</th><th>Where deployed</th><th>Pros</th><th>Cons</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Cobalt cap / liner</td><td>Co (ALD or CVD)</td><td>Intel 14nm+, TSMC N7/N5 contact &amp; M0</td><td>Improves electromigration, replaces W contact plug</td><td>Higher bulk ρ than Cu</td></tr>
+    <tr><td>Ruthenium fill</td><td>Ru (CVD)</td><td>Sub-2 nm research via fills</td><td>Doesn't need a separate barrier; lower ρ at &lt;10 nm</td><td>Expensive precursor, integration challenges</td></tr>
+    <tr><td>Self-forming barrier</td><td>Cu–Mn alloy seed</td><td>Research / pilot lines</td><td>Mn segregates to dielectric interface to form barrier in situ</td><td>Limited industrial uptake so far</td></tr>
+    <tr><td>Subtractive Ru / Mo</td><td>Etched Ru or Mo lines</td><td>Future "post-damascene" research</td><td>No barrier overhead at all — back to subtractive patterning</td><td>Requires new etch chemistries</td></tr>
+  </tbody>
+</table>
+<div class="key-concept">
+  <h3>Key Concept: Barrierless Interconnects</h3>
+  <p>The endgame is to eliminate the barrier entirely. Ru and Mo don't diffuse into low-k dielectrics, so a single material can serve as both the conductor and its own diffusion barrier. That recovers the full trench cross-section for current — the only obvious way to keep interconnect resistance from exploding below 2 nm.</p>
+</div>`,
+        },
       ],
       quiz: [
         {
@@ -143,6 +203,18 @@ export const subject10 = {
           correctIndex: 0,
           explanation:
             "Copper is a fast diffuser that would migrate into surrounding dielectric and silicon, creating electrical shorts and destroying transistor performance. TaN/Ta barriers block this diffusion.",
+        },
+        {
+          question: "What is the main motivation for adopting ruthenium via fills at advanced nodes?",
+          options: [
+            "Ru doesn't require a separate diffusion barrier, recovering trench cross-section for current",
+            "Ru is cheaper than copper",
+            "Ru has lower bulk resistivity than copper",
+            "Ru can be deposited at room temperature",
+          ],
+          correctIndex: 0,
+          explanation:
+            "Ru doesn't diffuse appreciably into low-k dielectrics, so it can be deposited without a TaN/Ta barrier. Eliminating the 1–2 nm barrier liberates the full trench cross-section for current — critical when the trench itself is only ~10 nm wide.",
         },
       ],
     },

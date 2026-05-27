@@ -79,7 +79,7 @@ export const subject5 = {
       ],
     },
     {
-      id: "the-bandgap",
+      id: "bandgap-properties",
       title: "The Bandgap",
       subtitle: "Direct vs indirect bandgaps, temperature effects, and bandgap engineering",
       sections: [
@@ -159,7 +159,7 @@ export const subject5 = {
   <li><strong>Electrons:</strong> Negatively charged, move in the conduction band. Dominant carriers in N-type silicon.</li>
   <li><strong>Holes:</strong> Positively charged "absences of electrons" in the valence band. Dominant carriers in P-type silicon.</li>
 </ul>
-<p>In <strong>intrinsic (undoped) silicon</strong> at room temperature, the carrier concentration is about <strong>1.5 × 10¹⁰ cm⁻³</strong>. This sounds large, but silicon has 5 × 10²² atoms/cm³, so only about 1 in every 10¹² atoms has a thermally generated free carrier.</p>
+<p>In <strong>intrinsic (undoped) silicon</strong> at room temperature, the carrier concentration is about <strong>1.0 × 10¹⁰ cm⁻³</strong> (modern measurement; older textbooks often cite 1.45–1.5 × 10¹⁰). This sounds large, but silicon has 5 × 10²² atoms/cm³, so only about 1 in every 10¹² atoms has a thermally generated free carrier.</p>
 <div class="key-concept">
   <h3>Key Concept: Mass Action Law</h3>
   <p>In thermal equilibrium, the product of electron and hole concentrations is constant: <strong>n × p = nᵢ²</strong>. If you increase electrons (N-type doping), the hole concentration automatically decreases, and vice versa. This is the mass action law.</p>

@@ -167,8 +167,8 @@ export const subject8 = {
 <h2>How EUV Works</h2>
 <p>An EUV scanner is arguably the most complex machine ever built:</p>
 <ul>
-  <li><strong>Light source:</strong> A high-power CO₂ laser hits tiny tin droplets (50,000 per second) at 50 km/s. Each droplet explodes into plasma that emits 13.5 nm EUV light. Conversion efficiency is only ~5%.</li>
-  <li><strong>Optics:</strong> 11 multilayer mirrors (alternating Mo/Si layers, ~40 pairs) collect and focus the light. Each mirror reflects only ~70% of incident EUV, so total optical efficiency is ~2%.</li>
+  <li><strong>Light source:</strong> A high-power CO₂ laser fires at 30 µm tin droplets generated at 50,000 droplets per second (the droplets travel at ~70 m/s). Each droplet is hit twice — a pre-pulse flattens it, then the main pulse vaporizes it into a plasma that emits 13.5 nm EUV light. Conversion efficiency is only ~5%.</li>
+  <li><strong>Optics:</strong> ~10 multilayer mirrors (alternating Mo/Si layers, ~40 pairs) in the illuminator and projection optics collect and focus the light. Each mirror reflects only ~70% of incident EUV, so total optical efficiency is ~2%.</li>
   <li><strong>Mask:</strong> Reflective mask (not transmissive) with absorber patterns on a Mo/Si multilayer substrate.</li>
   <li><strong>Vacuum:</strong> The entire optical path operates in ultra-high vacuum (hydrogen environment for debris mitigation).</li>
 </ul>
